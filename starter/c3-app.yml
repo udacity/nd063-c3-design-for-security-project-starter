@@ -6,7 +6,7 @@ Parameters:
     Default: "ami-0964e67a489e13cdb"
   AmiIdAttackInstance:
     Type: String
-    Default: "ami-0afae68cc546f179a"
+    Default: "ami-01fcf79ce78f46764"
   KeyPair:
     Type: String
     Description: "Name of an existing KeyPair you will use to access the EC2 instances in this exercise. Be sure you have access to the private key file corresponding to this keypair."
