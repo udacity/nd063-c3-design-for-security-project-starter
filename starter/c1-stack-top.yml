@@ -1,0 +1,26 @@
+Description:  This template will deploy separate underlying stacks for VPC, EC2 instances,and RDS database
+
+Parameters:
+  KeyPair:
+    Type: String
+    Description: "Name of an existing KeyPair you will use to access the EC2 instances in this exercise. Be sure you have access to the private key file corresponding to this keypair."
+
+
+Resources:
+  vpcStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: "https://s3.amazonaws.com/s3-code-repo-s3bucket-1wl5k4bxi7mml/c1-stack-vpc.yml"
+  ec2Stack:
+    Type: AWS::CloudFormation::Stack
+    DependsOn: vpcStack
+    Properties:
+      TemplateURL: "https://s3.amazonaws.com/s3-code-repo-s3bucket-1wl5k4bxi7mml/c1-stack-ec2.yml"
+      Parameters:
+        VpcId: !GetAtt vpcStack.Outputs.VPC
+        KeyPair: !Ref KeyPair
+        SubnetId1: !GetAtt vpcStack.Outputs.PublicSubnet1
+        SubnetId2: !GetAtt vpcStack.Outputs.PublicSubnet2
+        SubnetPrivateId1: !GetAtt vpcStack.Outputs.PrivateSubnet1
+        S3RecipesFree: !ImportValue BucketNameRecipesFree
+        S3RecipesSecret: !ImportValue BucketNameRecipesSecret

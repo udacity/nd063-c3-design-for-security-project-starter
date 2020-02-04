@@ -1,0 +1,32 @@
+Description:  This template deploys an S3 bucket for storage of recipes.
+
+Resources:
+  S3BucketRecipesFree:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Join [ "-", [ "cand-c3-free-recipes", !Ref 'AWS::AccountId' ] ]
+  S3BucketRecipesSecret:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Join [ "-", [ "cand-c3-secret-recipes", !Ref 'AWS::AccountId' ] ]
+  S3BucketVPCFlowLogs:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: !Join [ "-", [ "cand-c3-vpc-flow-logs", !Ref 'AWS::AccountId' ] ]
+
+Outputs:
+  BucketNameRecipesFree:
+    Value: !Ref 'S3BucketRecipesFree'
+    Description: Name of the Amazon S3 bucket that you will upload free recipes to.
+    Export:
+      Name: BucketNameRecipesFree
+  BucketNameRecipesSecret:
+    Value: !Ref 'S3BucketRecipesSecret'
+    Description: Name of the Amazon S3 bucket that you will upload secret recipes to.
+    Export:
+      Name: BucketNameRecipesSecret
+  BucketArnVPCFlowLogs:
+    Value: !GetAtt S3BucketVPCFlowLogs.Arn
+    Description: Arn of the Amazon S3 bucket that have vpc flow logs for this project
+    Export:
+      Name: BucketArnVPCFlowLogs

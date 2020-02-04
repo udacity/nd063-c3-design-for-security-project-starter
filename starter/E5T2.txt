@@ -1,0 +1,13 @@
+# Identify tools that will allow you to do the following:
+
+## Scan infrastructure as code templates
+
+### Example vulnerability
+
+##Scan AMI’s or containers for OS vulnerabilities
+
+### Example vulnerability
+
+##Scan an AWS environment for cloud configuration vulnerabilities
+
+### Example vulnerability

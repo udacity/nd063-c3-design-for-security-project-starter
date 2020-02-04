@@ -1,0 +1,186 @@
+Description:  This template deploys ec2 instances for the project starter
+
+Parameters:
+  AmiIdRecipeWebServiceInstance:
+    Type: String
+    Default: "ami-0964e67a489e13cdb"
+  AmiIdAttackInstance:
+    Type: String
+    Default: "ami-0afae68cc546f179a"
+  KeyPair:
+    Type: String
+    Description: "Name of an existing KeyPair you will use to access the EC2 instances in this exercise. Be sure you have access to the private key file corresponding to this keypair."
+
+
+Resources:
+  InstanceRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+              - ec2.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      Path: /
+      Policies:
+        - PolicyName: InstanceRolePolicy-C3
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action: 's3:*'
+                Resource: '*'
+
+  InstanceProfileRole:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Path: /
+      Roles:
+        - !Ref InstanceRole
+
+  WebAppSG:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: WebAppSG
+      GroupDescription: "Security group for this application server"
+      SecurityGroupEgress:
+      - IpProtocol: -1
+        CidrIp: 0.0.0.0/0
+      SecurityGroupIngress:
+      - IpProtocol: -1
+        CidrIp: 0.0.0.0/0
+      - IpProtocol: tcp
+        FromPort: 22
+        ToPort: 22
+        CidrIp: 0.0.0.0/0
+      - IpProtocol: tcp
+        FromPort: 5000
+        ToPort: 5000
+        CidrIp: 0.0.0.0/0
+      - IpProtocol: tcp
+        FromPort: 80
+        ToPort: 80
+        CidrIp: 0.0.0.0/0
+      VpcId: !ImportValue VpcId
+
+  RecipeWebServiceInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !Ref AmiIdRecipeWebServiceInstance
+      InstanceType: t3.micro
+      KeyName: !Ref KeyPair
+      SecurityGroupIds:
+      - !GetAtt WebAppSG.GroupId
+      SubnetId: !ImportValue PublicSubnetTrusted
+      IamInstanceProfile: !Ref InstanceProfileRole
+      Tags:
+      - Key: "Name"
+        Value: "Web Service Instance - C3"
+      UserData:
+        Fn::Base64:
+          Fn::Sub:
+            - |
+              #!/bin/bash
+              echo "Environment=S3_FREE_RECIPES="${S3FreeRecipies} | sudo tee -a /lib/systemd/system/flask.service
+              echo "Environment=S3_SECRET_RECIPES="${S3SecretRecipies} | sudo tee -a /lib/systemd/system/flask.service
+              systemctl daemon-reload
+              sleep 30
+              service flask restart
+            - S3FreeRecipies: !ImportValue BucketNameRecipesFree
+              S3SecretRecipies: !ImportValue BucketNameRecipesSecret
+
+# Add code for Exercise 3
+
+  AppLoadBalancerSG:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: AppLoadBalancerSG
+      GroupDescription: "Security group for this application server"
+      SecurityGroupEgress:
+      - IpProtocol: -1
+        CidrIp: 0.0.0.0/0
+      SecurityGroupIngress:
+      - IpProtocol: tcp
+        FromPort: 80
+        ToPort: 80
+        CidrIp: 0.0.0.0/0
+      VpcId: !ImportValue VpcId
+
+  AppEIP:
+    Type: AWS::EC2::EIP
+    Properties:
+      InstanceId: !Ref RecipeWebServiceInstance
+
+  AppLoadBalancer:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties:
+      Name: c1-web-service-alb
+      SecurityGroups:
+      - !GetAtt AppLoadBalancerSG.GroupId
+      Subnets:
+        - !ImportValue PublicSubnetTrusted
+        - !ImportValue PublicSubnetUnTrusted
+
+  AppLoadBalancerListener:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      DefaultActions:
+        - Type: forward
+          TargetGroupArn: !Ref AppTargetGroup
+      LoadBalancerArn: !Ref AppLoadBalancer
+      Port: 80
+      Protocol: HTTP
+
+  AppTargetGroup:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      HealthCheckEnabled: true
+      HealthCheckIntervalSeconds: 10
+      HealthCheckPath: /health
+      Name: AppTargetGroup
+      Port: 5000
+      VpcId: !ImportValue VpcId
+      Protocol: HTTP
+      Targets:
+      - Id: !Ref RecipeWebServiceInstance
+
+  AttackInstanceSG:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: AttackInstanceSG
+      GroupDescription: "Security group for the attack instance"
+      SecurityGroupEgress:
+      - IpProtocol: -1
+        CidrIp: 0.0.0.0/0
+      SecurityGroupIngress:
+      - IpProtocol: tcp
+        FromPort: 22
+        ToPort: 22
+        CidrIp: 0.0.0.0/0
+      VpcId: !ImportValue VpcId
+
+  AttackInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !Ref AmiIdAttackInstance
+      InstanceType: t3.micro
+      KeyName: !Ref KeyPair
+      IamInstanceProfile: !Ref InstanceProfileRole
+      SecurityGroupIds:
+      - !GetAtt AttackInstanceSG.GroupId
+      SubnetId: !ImportValue PublicSubnetUnTrusted
+      Tags:
+      - Key: "Name"
+        Value: "Attack Instance - C3"
+
+Outputs:
+  AttackInstanceIP:
+    Value: !GetAtt AttackInstance.PublicDnsName
+  ApplicationInstanceIP:
+    Value: !GetAtt RecipeWebServiceInstance.PublicDnsName
+  ApplicationURL:
+    Value: !GetAtt AppLoadBalancer.DNSName
