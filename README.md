@@ -24,7 +24,7 @@ Refer to the below links to get the AWS CLI installed and configured in your loc
 [Configuring the CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html)
  
 ### Local setup of git and GitHub Repository
-You will need to clone / fork / download this GitHub repo in order to work on and submit this project.
+You will need to clone / fork / download [this GitHub repo](https://github.com/udacity/nd063-c3-design-for-security-project-starter) in order to work on and submit this project.
  
 ## Exercise 1 - Deploy Project Environment
  
@@ -34,35 +34,37 @@ You will need to clone / fork / download this GitHub repo in order to work on an
 ### Task 1:  Review Architecture Diagram
 In this task, the objective is to familiarize yourself with the starting architecture diagram. An architecture diagram has been provided which reflects the resources that will be deployed in your AWS account.
  
-The diagram file can be found in the _starter_ directory in this repo.
+The diagram file, title `AWS-WebServiceDiagram-v1-insecure.png`, can be found in the _starter_ directory in this repo.
  
 ![base environment](/starter/AWS-WebServiceDiagram-v1-insecure.png)
  
-Expected user flow:
-Clients will invoke a public facing web service to pull free recipes.  
-The web service is hosted by an HTTP load balancer listening on port 80 and forwarding requests to the web application instance which listens on port 5000.
-The web application instance will in turn use the public facing AWS API to pull recipe files from the S3 bucket hosting free recipes.  An IAM role and policy will provide the web app instance permissions required to access objects in the S3 bucket.
-Another S3 bucket is used as a vault to store secret recipes, there are privileged users who would need access to this bucket.  The web application server does not need access to this bucket.
+#### Expected user flow:
+- Clients will invoke a public-facing web service to pull free recipes.  
+- The web service is hosted by an HTTP load balancer listening on port 80.
+- The web service is forwarding requests to the web application instance which listens on port 5000.
+- The web application instance will, in turn, use the public-facing AWS API to pull recipe files from the S3 bucket hosting free recipes. An IAM role and policy will provide the web app instance permissions required to access objects in the S3 bucket.
+- Another S3 bucket is used as a vault to store secret recipes; there are privileged users who would need access to this bucket. The web application server does not need access to this bucket.
  
-Attack flow:
-Scripts simulating an attack will be run from a separate instance which is in an un-trusted subnet.
-The scripts will attempt to break into the web application instance using the public IP and attempt to access data in the secret recipe S3 bucket.
+#### Attack flow:
+- Scripts simulating an attack will be run from a separate instance which is in an un-trusted subnet.
+- The scripts will attempt to break into the web application instance using the public IP and attempt to access data in the secret recipe S3 bucket.
  
 ### Task 2: Review CloudFormation Template
 In this task, the objective is to get you up and running quickly - we have provided a CloudFormation template which will deploy the following resources in AWS:
  
-VPC Stack for the underlying network:
-* A VPC with 2 public subnets, and one private subnet, internet gateways etc for internet access.
+#### VPC Stack for the underlying network:
+* A VPC with 2 public subnets, one private subnet, and internet gateways etc for internet access.
  
-S3 bucket stack:
-* 2 S3 buckets that will contain data objects for the application
+#### S3 bucket stack:
+* 2 S3 buckets that will contain data objects for the application.
  
-Application stack:
+#### Application stack:
 * An EC2 instance that will act as an external attacker from which we will test the ability of our environment to handle threats
 * An EC2 instance that will be running a simple web service.
 * Application LoadBalancer
 * Security groups
 * IAM role
+
  
 Spend a few minutes going through the .yml files in the _starter_ folder to get a feel for how parts of the code will map to the components in the architecture diagram.
  
