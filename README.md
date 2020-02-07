@@ -50,7 +50,8 @@ The diagram file, title `AWS-WebServiceDiagram-v1-insecure.png`, can be found in
 - The scripts will attempt to break into the web application instance using the public IP and attempt to access data in the secret recipe S3 bucket.
  
 ### Task 2: Review CloudFormation Template
-In this task, the objective is to get you up and running quickly - we have provided a CloudFormation template which will deploy the following resources in AWS:
+In this task, the objective is to familiarize you with the starter code get you up and running quickly. Spend a few minutes going through the .yml files in the _starter_ folder to get a feel for how parts of the code will map to the components in the architecture diagram. 
+Additionally, we have provided a CloudFormation template which will deploy the following resources in AWS:
  
 #### VPC Stack for the underlying network:
 * A VPC with 2 public subnets, one private subnet, and internet gateways etc for internet access.
@@ -64,9 +65,6 @@ In this task, the objective is to get you up and running quickly - we have provi
 * Application LoadBalancer
 * Security groups
 * IAM role
-
- 
-Spend a few minutes going through the .yml files in the _starter_ folder to get a feel for how parts of the code will map to the components in the architecture diagram.
  
 ## Task 2: Deployment of Initial Infrastructure
 In this task, the objective is to deploy the cloudformation stacks that will create the below environment.
