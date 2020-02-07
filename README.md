@@ -87,6 +87,7 @@ Expected example output:
 {
     "StackId": "arn:aws:cloudformation:us-east-1:4363053XXXXXX:stack/c3-s3/70dfd370-2118-11ea-aea4-12d607a4fd1c"
 }
+```
 Deploy the VPC and Subnets
 ```
 aws cloudformation create-stack --region us-east-1 --stack-name c3-vpc --template-body file://starter/c3-vpc.yml
