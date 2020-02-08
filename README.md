@@ -1,4 +1,4 @@
-# Cloud Security - Protecting resources and data in the cloud
+# Cloud Security - Protecting Resources and Data in the Cloud
  
 In this project, you will:
  
@@ -7,8 +7,6 @@ In this project, you will:
 * Implement monitoring to identify insecure configurations and malicious activity 
 * Apply methods learned in the course to harden and secure the environment
 * Design a DevSecOps pipeline
- 
-
  
 ## Dependancies and Prerequisites
  
@@ -29,7 +27,7 @@ You will need to clone / fork / download [this GitHub repo](https://github.com/u
 ## Exercise 1 - Deploy Project Environment
  
 **_Deliverables for Exercise 1:_**
-* There are no deliverables for Exercise 1.
+* **E1T5.txt** - Text file identifying 2 poor security practices with justification. 
  
 ### Task 1:  Review Architecture Diagram
 In this task, the objective is to familiarize yourself with the starting architecture diagram. An architecture diagram has been provided which reflects the resources that will be deployed in your AWS account.
@@ -50,7 +48,8 @@ The diagram file, title `AWS-WebServiceDiagram-v1-insecure.png`, can be found in
 - The scripts will attempt to break into the web application instance using the public IP and attempt to access data in the secret recipe S3 bucket.
  
 ### Task 2: Review CloudFormation Template
-In this task, the objective is to familiarize you with the starter code get you up and running quickly. Spend a few minutes going through the .yml files in the _starter_ folder to get a feel for how parts of the code will map to the components in the architecture diagram. 
+In this task, the objective is to familiarize yourself with the starter code get you up and running quickly. Spend a few minutes going through the .yml files in the _starter_ folder to get a feel for how parts of the code will map to the components in the architecture diagram. 
+ 
 Additionally, we have provided a CloudFormation template which will deploy the following resources in AWS:
  
 #### VPC Stack for the underlying network:
@@ -77,7 +76,7 @@ We will utilize the AWS CLI in this guide, however you are welcome to use the AW
  
 1. From the root directory of the repository - execute the below command to deploy the templates.
  
-Deploy the S3 buckets
+#### Deploy the S3 buckets
 ```
 aws cloudformation create-stack --region us-east-1 --stack-name c3-s3 --template-body file://starter/c3-s3.yml
 ```
@@ -88,7 +87,7 @@ Expected example output:
     "StackId": "arn:aws:cloudformation:us-east-1:4363053XXXXXX:stack/c3-s3/70dfd370-2118-11ea-aea4-12d607a4fd1c"
 }
 ```
-Deploy the VPC and Subnets
+#### Deploy the VPC and Subnets
 ```
 aws cloudformation create-stack --region us-east-1 --stack-name c3-vpc --template-body file://starter/c3-vpc.yml
 ```
@@ -100,7 +99,8 @@ Expected example output:
 }
 ```
  
-Deploy the application stack - you will need to specify a pre-existing key pair name
+#### Deploy the Application Stack 
+You will need to specify a pre-existing key-pair name.
 ```
 aws cloudformation create-stack --region us-east-1 --stack-name c3-app --template-body file://starter/c3-app.yml --parameters ParameterKey=KeyPair,ParameterValue=<add your key pair name here> --capabilities CAPABILITY_IAM
 ```
@@ -115,53 +115,52 @@ Expected example output:
 Expected example AWS Console status: 
 https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks
  
-![Expected AWS Console Status](cloudformation_status.png)
+![Expected AWS Console Status](starter/cloudformation_status.png)
  
 2. Once you see Status is CREATE_COMPLETE for all 3 stacks, Obtain the required parameters needed for the project.
  
 Obtain the name of the S3 bucket by navigating to the Outputs section of the stack:
  
-![Outputs Section](s3stack_outputs.png)
+![Outputs Section](starter/s3stack_outputs.png)
  
 Note down the names of the two other buckets that have been created, one for free recipes and one for secret recipes.  You will need the bucket names to upload example recipe data to the buckets and to run the attack scripts.
  
-You will need the Application Load Balancer endpoint to test the web service - ApplicationURL
-You will need the web application EC2 instance public IP address to simulate the attack - ApplicationInstanceIP
-You will need the public IP address of the attack instance from which to run the attack scripts - AttackInstanceIP
+- You will need the Application Load Balancer endpoint to test the web service - ApplicationURL
+- You will need the web application EC2 instance public IP address to simulate the attack - ApplicationInstanceIP
+- You will need the public IP address of the attack instance from which to run the attack scripts - AttackInstanceIP
  
 You can get these from the Outputs section of the **c3-app** stack.
  
-![Outputs](outputs.png)
+![Outputs](starter/outputs.png)
  
 3.  Upload data to S3 buckets
-Upload the free recipes to the free recipe S3 bucket from step 2 that has been by typing this command into the console (you will replace <BucketNameRecipesFree> with your bucket name):
+Upload the free recipes to the free recipe S3 bucket from step 2. Do this by typing this command into the console (you will replace `<BucketNameRecipesFree>` with your bucket name):
  
 Example:  
 ```
 aws s3 cp free_recipe.txt s3://<BucketNameRecipesFree>/ --region us-east-1
- 
 ```
  
-Upload the secret recipes to the free recipe S3 bucket from step 2 that has been by typing this command into the console (you will replace <BucketNameRecipesFree> with your bucket name):
+Upload the secret recipes to the free recipe S3 bucket from step 2. Do this by typing this command into the console (you will replace `<BucketNameRecipesSecret>` with your bucket name):
  
 Example:  
 ```
 aws s3 cp secret_recipe.txt s3://<BucketNameRecipesSecret>/ --region us-east-1
- 
 ```
  
  
 4. Test the application
-Invoke the web service using the application load balancer URL
+Invoke the web service using the application load balancer URL:
+```
 http://<ApplicationURL>/free_recipe
+```
 You should receive a recipe for banana bread.
  
+## Task 5:  Identify Bad Practices
  
-## Task 5:  Identify bad practices
+Based on the architecture diagram, and the steps you have taken so far to upload data and access the application web service, identify at least 2 obvious poor practices as it relates to security. List these 2 practices, and a justification for your choices, in the text file named E1T5.txt.
  
-Based on the architecture diagram, and the steps you have taken so far to upload data and access the application web service, identify at least 2 obvious poor practices as it relates to security.  Include justification.
- 
-Deliverable: txt file e1t5.txt
+**Deliverable:** E1T5.txt - Text file identifying 2 poor security practices with justification. 
  
 # Exercise 2 : enable security monitoring
  
