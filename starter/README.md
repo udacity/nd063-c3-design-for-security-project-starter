@@ -1,4 +1,4 @@
-# Cloud Security - Protecting Resources and Data in the Cloud
+# Cloud Security - Secure the Recipe Vault Web Application
  
 In this project, you will:
  
