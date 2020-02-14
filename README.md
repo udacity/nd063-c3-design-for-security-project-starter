@@ -188,9 +188,9 @@ b. On the next page, click **Enable Security Hub**
  ![Inspector1](starter/inspector_setup_runonce.png)  
  b. Uncheck **All Instances** and **Install Agents**.  
  c. Choose Name for Key and ‘Web Services Instance - C3’ for value, click **Next**.  
- ![Inspector2](starter/inspector_setup2.png)  
+ ![Inspector2](starter/inspector_setup_2.png)  
  d. Edit the rules packages as seen in the screenshot below.  
- ![Inspector3](starter/inspector_setup3.png)  
+ ![Inspector3](starter/inspector_setup_3.png)  
  e. Uncheck **Assessment Schedule**.  
  f. Set a duration of 15 minutes.
 #### 4. Enable AWS Guard Duty
