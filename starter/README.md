@@ -131,7 +131,7 @@ Note down the names of the two other buckets that have been created, one for fre
  
 You can get these from the Outputs section of the **c3-app** stack.
  
-![Outputs](starter/outputs.png)
+![Outputs](outputs.png)
  
 #### 3.  Upload data to S3 buckets
 Upload the free recipes to the free recipe S3 bucket from step 2. Do this by typing this command into the console (you will replace `<BucketNameRecipesFree>` with your bucket name):
@@ -188,9 +188,9 @@ b. On the next page, click **Enable Security Hub**
  ![Inspector1](inspector_setup_runonce.png)  
  b. Uncheck **All Instances** and **Install Agents**.  
  c. Choose Name for Key and ‘Web Services Instance - C3’ for value, click **Next**.  
- ![Inspector2](inspector_setup2.png)  
+ ![Inspector2](inspector_setup_2.png)  
  d. Edit the rules packages as seen in the screenshot below.  
- ![Inspector3](inspector_setup3.png)  
+ ![Inspector3](inspector_setup_3.png)  
  e. Uncheck **Assessment Schedule**.  
  f. Set a duration of 15 minutes.
 #### 4. Enable AWS Guard Duty
