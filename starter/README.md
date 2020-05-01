@@ -147,7 +147,7 @@ Example:
 ```
 aws s3 cp secret_recipe.txt s3://<BucketNameRecipesSecret>/ --region us-east-1
 ```
- 
+The AMIs specified in the cloud formation template exist in the us-east-1 (N. Virginia) region.  You will need to set this as your default region when deploying resources for this project. 
  
 #### 4. Test the application
 Invoke the web service using the application load balancer URL:
@@ -228,12 +228,17 @@ Capturing secret recipe files from the s3 bucket using stolen API keys.
 - _Optional_ **Task 3** - Screenshots showing attack attempts and monitoring or logs from the WAF showing blocked attempts.
  
 ### Task 1: Brute force attack to exploit SSH ports facing the internet and an insecure configuration on the server
+
+```
+ssh -i <your private key file> ubuntu@<AttackInstanceIP>
+```
+The above instructions are for macOS X users.  For further guidance and other options to connet to the EC2 instance refer to [this guide](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AccessingInstancesLinux.html)
  
 #### 1. Log in to the attack simulation server using your SSH key pair.
 #### 2. Run the below commands to start a brute force attack against the application server.  You will need the application server hostname for this.
 ```
 date
-hydra -l ubuntu -P rockyou.txt SSH://ec2-52-203-199-229.compute-1.amazonaws.com
+hydra -l ubuntu -P rockyou.txt ssh://ec2-52-203-199-229.compute-1.amazonaws.com
 ```
  
 You should see output similar to the following:
@@ -288,8 +293,9 @@ Submit screenshots of your attempts and monitoring or logs from the WAF showing 
 
 **_Deliverables for Exercise 4:_**
 - **E4T1.txt** - Answer to the prompts in Exercise 4, Task 1.
-- **E4T2_ssh.png** - Screenshot of terminal window showing the brute force attack and the remediation.
+- **E4T2_sshbruteforce.png** - Screenshot of terminal window showing the brute force attack and the remediation.
 - **E4T2_networksg.png** - Screenshot of the security group change. 
+- **E4T2_sshattempt.png** - Screenshot of your SSH attempt.
 - **E4T2_s3iampolicy.png** - Screenshot of the updated IAM policy.
 - **E4T2_s3copy.png** - Screenshot of the failed copy attempt.
 - **E4T2_s3encryption.png** - screenshot of the S3 bucket policy
@@ -337,7 +343,7 @@ sudo service ssh restart
 3. Take a screenshot of the terminal window where you ran the attack highlighting the remediation and name it E4T2_ssh.png.
 
 **Deliverables:**
-- **E4T2_ssh.png** - Screenshot of terminal window showing the brute force attack and the remediation.
+- **E4T2_sshbruteforce.png** - Screenshot of terminal window showing the brute force attack and the remediation.
 
 #### Apply Network Controls to Restrict Application Server Traffic
 
@@ -347,6 +353,7 @@ sudo service ssh restart
 
 **Deliverables**:
 - **E4T2_networksg.png** - Screenshot of the security group change. 
+- **E4T2_sshattempt.png** - Screenshot of your SSH attempt.
 
 #### Least Privilege Access to S3  
 
