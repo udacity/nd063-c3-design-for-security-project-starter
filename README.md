@@ -17,13 +17,13 @@ Students will need to use their personal AWS accounts.  Udacity will provide a $
 Instructions and examples in this project will make use of the AWS CLI in order to automate and reduce time and complexity.
 Refer to the below links to get the AWS CLI installed and configured in your local environment.
  
-[Installing the CL](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv1.html)
+[Installing the CLI](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html)
  
 [Configuring the CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html)
  
 ### Local setup of git and GitHub Repository
-You will need to clone / fork / download [this GitHub repo](https://github.com/udacity/nd063-c3-design-for-security-project-starter) in order to work on and submit this project.
- 
+You will need to clone or download [this GitHub repo](https://github.com/udacity/nd063-c3-design-for-security-project-starter) in order to work on and submit this project.
+
 ## Exercise 1 - Deploy Project Environment
  
 **_Deliverables for Exercise 1:_**
@@ -141,13 +141,12 @@ Example:
 aws s3 cp free_recipe.txt s3://<BucketNameRecipesFree>/ --region us-east-1
 ```
  
-Upload the secret recipes to the free recipe S3 bucket from step 2. Do this by typing this command into the console (you will replace `<BucketNameRecipesSecret>` with your bucket name):
+Upload the secret recipes to the secret recipe S3 bucket from step 2. Do this by typing this command into the console (you will replace `<BucketNameRecipesSecret>` with your bucket name):
  
 Example:  
 ```
 aws s3 cp secret_recipe.txt s3://<BucketNameRecipesSecret>/ --region us-east-1
 ```
-The AMIs specified in the cloud formation template exist in the us-east-1 (N. Virginia) region.  You will need to set this as your default region when deploying resources for this project. 
  
 #### 4. Test the application
 Invoke the web service using the application load balancer URL:
@@ -155,6 +154,8 @@ Invoke the web service using the application load balancer URL:
 http://<ApplicationURL>/free_recipe
 ```
 You should receive a recipe for banana bread.
+
+The AMIs specified in the cloud formation template exist in the us-east-1 (N. Virginia) region. You will need to set this as your default region when deploying resources for this project.
  
 ### Task 4:  Identify Bad Practices
  
@@ -169,7 +170,7 @@ Based on the architecture diagram, and the steps you have taken so far to upload
 - **E2T2_config.png** - Screenshot of AWS Config showing non-compliant rules.
 - **E2T2_inspector.png** - Screenshot of AWS Inspector showing scan results.
 - **E2T2.png_securityhub.png** - Screenshot of AWS Security Hub showing compliance standards for CIS foundations.
-- _Optional_ **E2T2.txt** - Provide recommendations on how to remediate the vulnerabilities.
+- **E2T2.txt** - Provide recommendations on how to remediate the vulnerabilities.
  
 ### Task 1: Enable Security Monitoring using AWS Native Tools
  
@@ -193,6 +194,7 @@ b. On the next page, click **Enable Security Hub**
  ![Inspector3](inspector_setup_3.png)  
  e. Uncheck **Assessment Schedule**.  
  f. Set a duration of 15 minutes.
+ g. Click **Next** and **Create**.
 #### 4. Enable AWS Guard Duty
 a. After 1-2 hours, data will populate in these tools giving you a glimpse of security vulnerabilities in your environment.
  
@@ -205,15 +207,13 @@ Please submit screenshots of:
  
 Name the files E2T2_config.png, E2T2_inspector.png, E2T2_securityhub.png respectively.
  
-Research and analyze which of the vulnerabilities appear to be related to the code that was deployed for the environment in this project.
- 
-_Optional Stand Out Suggestion_: Provide recommendations on how to remediate the vulnerabilities. Submit your findings in E2T2.txt
+Research and analyze which of the vulnerabilities appear to be related to the code that was deployed for the environment in this project. Provide recommendations on how to remediate the vulnerabilities. Submit your findings in E2T2.txt
  
 **Deliverables:** 
 - **E2T2_config.png** - Screenshot of AWS Config showing non-compliant rules.
 - **E2T2_inspector.png** - Screenshot of AWS Inspector showing scan results.
 - **E2T2.png_securityhub.png** - Screenshot of AWS Security Hub showing compliance standards for CIS foundations.
-- _Optional_ **E2T2.txt** - Provide recommendations on how to remediate the vulnerabilities.
+- **E2T2.txt** - Provide recommendations on how to remediate the vulnerabilities.
  
 ## Exercise 3 - Attack Simulation
  
@@ -238,7 +238,7 @@ The above instructions are for macOS X users.  For further guidance and other op
 #### 2. Run the below commands to start a brute force attack against the application server.  You will need the application server hostname for this.
 ```
 date
-hydra -l ubuntu -P rockyou.txt ssh://ec2-52-203-199-229.compute-1.amazonaws.com
+hydra -l ubuntu -P rockyou.txt ssh://<YourApplicationServerDnsNameHere>
 ```
  
 You should see output similar to the following:
@@ -340,7 +340,7 @@ sudo service ssh restart
 ```
 2. Test that this made a difference.  Run the brute force attack again from Exercise 3, Task 1.  
 
-3. Take a screenshot of the terminal window where you ran the attack highlighting the remediation and name it E4T2_ssh.png.
+3. Take a screenshot of the terminal window where you ran the attack highlighting the remediation and name it E4T2_sshbruteforce.png.
 
 **Deliverables:**
 - **E4T2_sshbruteforce.png** - Screenshot of terminal window showing the brute force attack and the remediation.
