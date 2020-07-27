@@ -1,4 +1,4 @@
-Description:  This template deploys ec2 instances for the project starter
+Description: This template deploys ec2 instances for the project starter
 
 Parameters:
   AmiIdRecipeWebServiceInstance:
@@ -9,12 +9,11 @@ Parameters:
     Default: "ami-01fcf79ce78f46764"
   KeyPair:
     Type: String
-    Description: "Name of an existing KeyPair you will use to access the EC2 instances in this exercise. Be sure you have access to the private key file corresponding to this keypair."
-
+    Description: "c3pair"
 
 Resources:
   InstanceRole:
-    Type: 'AWS::IAM::Role'
+    Type: "AWS::IAM::Role"
     Properties:
       AssumeRolePolicyDocument:
         Version: 2012-10-17
@@ -22,9 +21,9 @@ Resources:
           - Effect: Allow
             Principal:
               Service:
-              - ec2.amazonaws.com
+                - ec2.amazonaws.com
             Action:
-              - 'sts:AssumeRole'
+              - "sts:AssumeRole"
       Path: /
       Policies:
         - PolicyName: InstanceRolePolicy-C3
@@ -32,8 +31,8 @@ Resources:
             Version: 2012-10-17
             Statement:
               - Effect: Allow
-                Action: 's3:*'
-                Resource: '*'
+                Action: "s3:*"
+                Resource: "*"
 
   InstanceProfileRole:
     Type: AWS::IAM::InstanceProfile
@@ -48,23 +47,23 @@ Resources:
       GroupName: WebAppSG
       GroupDescription: "Security group for this application server"
       SecurityGroupEgress:
-      - IpProtocol: -1
-        CidrIp: 0.0.0.0/0
+        - IpProtocol: -1
+          CidrIp: 0.0.0.0/0
       SecurityGroupIngress:
-      - IpProtocol: -1
-        CidrIp: 0.0.0.0/0
-      - IpProtocol: tcp
-        FromPort: 22
-        ToPort: 22
-        CidrIp: 0.0.0.0/0
-      - IpProtocol: tcp
-        FromPort: 5000
-        ToPort: 5000
-        CidrIp: 0.0.0.0/0
-      - IpProtocol: tcp
-        FromPort: 80
-        ToPort: 80
-        CidrIp: 0.0.0.0/0
+        - IpProtocol: -1
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 5000
+          ToPort: 5000
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
       VpcId: !ImportValue VpcId
 
   RecipeWebServiceInstance:
@@ -74,12 +73,12 @@ Resources:
       InstanceType: t3.micro
       KeyName: !Ref KeyPair
       SecurityGroupIds:
-      - !GetAtt WebAppSG.GroupId
+        - !GetAtt WebAppSG.GroupId
       SubnetId: !ImportValue PublicSubnetTrusted
       IamInstanceProfile: !Ref InstanceProfileRole
       Tags:
-      - Key: "Name"
-        Value: "Web Service Instance - C3"
+        - Key: "Name"
+          Value: "Web Service Instance - C3"
       UserData:
         Fn::Base64:
           Fn::Sub:
@@ -93,7 +92,7 @@ Resources:
             - S3FreeRecipies: !ImportValue BucketNameRecipesFree
               S3SecretRecipies: !ImportValue BucketNameRecipesSecret
 
-# Add code for Exercise 3
+  # Add code for Exercise 3
 
   AppLoadBalancerSG:
     Type: AWS::EC2::SecurityGroup
@@ -101,13 +100,13 @@ Resources:
       GroupName: AppLoadBalancerSG
       GroupDescription: "Security group for this application server"
       SecurityGroupEgress:
-      - IpProtocol: -1
-        CidrIp: 0.0.0.0/0
+        - IpProtocol: -1
+          CidrIp: 0.0.0.0/0
       SecurityGroupIngress:
-      - IpProtocol: tcp
-        FromPort: 80
-        ToPort: 80
-        CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
       VpcId: !ImportValue VpcId
 
   AppEIP:
@@ -120,7 +119,7 @@ Resources:
     Properties:
       Name: c1-web-service-alb
       SecurityGroups:
-      - !GetAtt AppLoadBalancerSG.GroupId
+        - !GetAtt AppLoadBalancerSG.GroupId
       Subnets:
         - !ImportValue PublicSubnetTrusted
         - !ImportValue PublicSubnetUnTrusted
@@ -146,7 +145,7 @@ Resources:
       VpcId: !ImportValue VpcId
       Protocol: HTTP
       Targets:
-      - Id: !Ref RecipeWebServiceInstance
+        - Id: !Ref RecipeWebServiceInstance
 
   AttackInstanceSG:
     Type: AWS::EC2::SecurityGroup
@@ -154,13 +153,13 @@ Resources:
       GroupName: AttackInstanceSG
       GroupDescription: "Security group for the attack instance"
       SecurityGroupEgress:
-      - IpProtocol: -1
-        CidrIp: 0.0.0.0/0
+        - IpProtocol: -1
+          CidrIp: 0.0.0.0/0
       SecurityGroupIngress:
-      - IpProtocol: tcp
-        FromPort: 22
-        ToPort: 22
-        CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
       VpcId: !ImportValue VpcId
 
   AttackInstance:
@@ -171,11 +170,11 @@ Resources:
       KeyName: !Ref KeyPair
       IamInstanceProfile: !Ref InstanceProfileRole
       SecurityGroupIds:
-      - !GetAtt AttackInstanceSG.GroupId
+        - !GetAtt AttackInstanceSG.GroupId
       SubnetId: !ImportValue PublicSubnetUnTrusted
       Tags:
-      - Key: "Name"
-        Value: "Attack Instance - C3"
+        - Key: "Name"
+          Value: "Attack Instance - C3"
 
 Outputs:
   AttackInstanceIP:
