@@ -1,5 +1,9 @@
 Based on the architecture diagram, and the steps you have taken so far to upload data and access the application web service, identify at least 2 obvious poor practices as it relates to security.  Include justification.
 
 # Poor practice 1
+Web Service Instance user roles' (c3-app-InstanceRole-1AIX3FXHHWCQ) policy grants full access to all S3 buckets. 
+It should only grant access to free recepie's bucket since business users can directly access secret recepie's bucket.
 
 # Poor practice 2
+S3 encryption is disabled for both free and secret recepie buckets. It is a best practice to enable S3 server-side encryption for all buckets. 
+By enabling S3 server-side encrption AWS encrypts all objects before saving to disk  and decrypts them before downloading.
