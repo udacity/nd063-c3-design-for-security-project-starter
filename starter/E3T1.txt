@@ -1,3 +1,12 @@
 # Describe GuardDuty findings that were detected related to the brute force attack
 
+GuardDuty findings are;
+- Origin of attack
+- Attaked instances
+- Type of attack ( in this case it is SSH brute force attack )
+- Timeframe of attack
+
 # Research the AWS Guard Duty documentation page and explain how GuardDuty may have detected this attack - i.e. what was its source of information.
+
+This finding is generated only through GuardDuty monitoring traffic on port 22. If your SSH services are configured to use other ports, 
+this finding is not generated.
