@@ -1,13 +1,32 @@
 # Identify tools that will allow you to do the following:
 
 ## Scan infrastructure as code templates
+Checkov - It is for analyzing static codes for IaC. To detect cloud misconfigurations, 
+it scans cloud infrastructure, which is managed in Kubernetes, Terraform, and Cloudformation.
 
 ### Example vulnerability
+CKV_AWS_24	resource	aws_security_group	Ensure no security groups allow ingress from 0.0.0.0:0 to port 22
+CKV_AWS_19	resource	aws_s3_bucket	Ensure all data stored in the S3 bucket is securely encrypted at rest
 
 ##Scan AMI’s or containers for OS vulnerabilities
+Anchore - Anchore policy engine allows organizations to help achieve NIST SP 800-190 compliance,
+CIS Benchmarks for Docker and Kubernetes, and general best practices for building secure Docker images.
 
 ### Example vulnerability
+Embedded clear text secrets
+Clear text secrets should never be present inside of images. They should be stored
+outside of the image and provided dynamically at runtime as needed.
+
+Anchore provides mechanisms to search for secrets that may be contained within an
+image via a regex check (filename or content). The common ones available by default are:
+• AWS_ACCESS_KEY
+• AWS_SECRET_KEY
+• PRIV_KEY
+• DOCKER_AUTH
+• API_KEY
 
 ##Scan an AWS environment for cloud configuration vulnerabilities
+AWS Config - AWS Config is a service that enables you to assess, audit, and evaluate the configurations of your AWS resources.
 
 ### Example vulnerability
+securityhub-s3-bucket-server-side-encryption-enabled-738b446f : Checks that your Amazon S3 bucket either has Amazon S3 default encryption enabled or that the S3 bucket policy explicitly denies put-object requests without server side encryption.
