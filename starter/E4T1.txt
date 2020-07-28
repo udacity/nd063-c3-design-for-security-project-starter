@@ -2,4 +2,13 @@
 
 # Identify 2-3 changes that can be made to our environment to prevent an ssh brute force attack from the internet.
 
+Most of the ports that is used frequently by attackers are open to the internet on this instance. SSH
+brute force attacks can be prevented by restricting access to SSH ports. We can provision a bastion host for 
+accessing our EC2 instances via SSH and make SSH ports usable by only that bastion host by configuring network ACL. 
+
+
 # Neither instance should have had access to the secret recipes bucket, in the even that instance API credentials were compromised how could we have prevented access to sensitive data.
+
+- We need to restrict API access rights to S3 resources. Our application only needs to access free recipes but has access to all S3 buckets.
+- By restring API access we secure the secret recipe bucket. But our free recipe bucket is still vulnerable and attackers can access all data
+  in this bucket if the API key has been compromised. We can enable S3 server side encyrption with customer managed keys to prevent this scenerio.
