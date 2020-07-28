@@ -1,3 +1,10 @@
 Research and analyze which of the vulnerabilities appear to be related to the code that was deployed for the environment in this project.
 
-Bonus - provide recommendations on how to remediate the vulnerabilities.
+securityhub-s3-bucket-logging-enabled-4a0323ee: Checks whether logging is enabled for your S3 buckets.
+securityhub-s3-bucket-ssl-requests-only-05214f7e: Checks whether S3 buckets have policies that require requests to use Secure Socket Layer (SSL).
+securityhub-s3-bucket-server-side-encryption-enabled-738b446f : Checks that your Amazon S3 bucket either has Amazon S3 default encryption enabled or that the S3 bucket policy explicitly denies put-object requests without server side encryption.
+securityhub-restricted-rdp-8c5cd58d: Checks whether the incoming RDP traffic is Allowed from 0.0.0.0/0. This rule is compliant when incoming RDP traffic is restricted.
+securityhub-encrypted-volumes-f37a31cf: Checks whether the EBS volumes that are in an attached state are encrypted. If you specify the ID of a KMS key for encryption using the kmsId parameter, the rule checks if the EBS volumes in an attached state are encrypted with that KMS key.
+
+On Web Service instance FTP and Telnet ports are open to the internet. We should close those ports to public access.
+
