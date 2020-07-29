@@ -13,4 +13,5 @@ Since we own both attacker and target EC2 instances GuardDuty detected two seper
 AWS guardduty continously monitors for malicious and unauthorized behaviour. It automatically analyze network and account activity
 using data like CloudTrail logs, VPC Flow Logs, DNS logs etc. GuardDuty combines managed rule-sets , threat intelligence from 
 AWS Security and 3rd party intelligence partners, anormally detection, and machine learning to intelligently detect malicious and 
-unauthorized behaviour. For this particular SSH brute force attack, AWS guard duty detected abnormal traffic on port 22 and reported it. 
+unauthorized behaviour. For this particular SSH brute force attack, AWS guard duty detected abnormal traffic on port 22 by analyzing VPC flow 
+logs and reported it. 
