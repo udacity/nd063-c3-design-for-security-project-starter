@@ -1,12 +1,16 @@
 # Describe GuardDuty findings that were detected related to the brute force attack
 
-GuardDuty findings are;
-- Origin of attack
-- Attaked instances
-- Type of attack ( in this case it is SSH brute force attack )
-- Timeframe of attack
+Since we own both attacker and target EC2 instances GuardDuty detected two seperate threats.
+
+- For attack instance, it reports that one of our EC2 instances performing an SSH brute force attack. 
+  This is a very usefull insight, because EC2 instance's security might be breached and someone could've 
+  taken control of our EC2 instance.
+- For target instance, it reports that one of our EC2 instances getting SSH brute force attacked. It reports
+  some useful information like attack origin, effected instances, timeframe of attack etc.  
 
 # Research the AWS Guard Duty documentation page and explain how GuardDuty may have detected this attack - i.e. what was its source of information.
 
-This finding is generated only through GuardDuty monitoring traffic on port 22. If your SSH services are configured to use other ports, 
-this finding is not generated.
+AWS guardduty continously monitors for malicious and unauthorized behaviour. It automatically analyze network and account activity
+using data like CloudTrail logs, VPC Flow Logs, DNS logs etc. GuardDuty combines managed rule-sets , threat intelligence from 
+AWS Security and 3rd party intelligence partners, anormally detection, and machine learning to intelligently detect malicious and 
+unauthorized behaviour. For this particular SSH brute force attack, AWS guard duty detected abnormal traffic on port 22 and reported it. 
