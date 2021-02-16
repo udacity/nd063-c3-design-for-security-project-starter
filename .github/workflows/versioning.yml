@@ -23,3 +23,4 @@ jobs:
             
       - name: Image digest
         run: echo ${{ steps.versioning.outputs.new_tag  }}
+        
