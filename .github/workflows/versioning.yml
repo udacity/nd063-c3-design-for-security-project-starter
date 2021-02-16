@@ -1,0 +1,25 @@
+name: Deploy to Prod
+
+on: 
+  push:
+    branches: [ master ]
+  workflow_dispatch:
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Check Out Repo 
+        uses: actions/checkout@v2
+      
+      - name: Bump version and push tag
+        id: versioning
+        uses: anothrNick/github-tag-action@1.26.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WITH_V: true
+            
+      - name: Image digest
+        run: echo ${{ steps.versioning.outputs.new_tag  }}
