@@ -11,7 +11,8 @@ In this project, you will:
 ## Dependencies and Prerequisites
  
 ### Access to AWS account  
-Students will need to use their personal AWS accounts.  Udacity will provide a $100 credit for any usage costs. If project instructions are followed we do not anticipate usage costs to exceed this amount.
+Students will need to use either their personal AWS account or the federated user account provided by Udacity (if available to you). In either case, you need to track your usage and expenditure on [AWS Billing Dashboard](https://console.aws.amazon.com/billing/home#/) regularly. Remember, all AWS services are a pay-as-you-go service, so shut down/delete every AWS resource immediately after the usage or if you are stepping away for a few hours. 
+
  
 ### Installation of the AWS CLI and Local Setup of AWS API keys
 Instructions and examples in this project will make use of the AWS CLI in order to automate and reduce time and complexity.
