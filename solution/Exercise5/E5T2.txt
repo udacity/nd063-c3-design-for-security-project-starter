@@ -1,0 +1,33 @@
+1) Scan Infrastructure as Code Templates Pre-deployment
+There are numerous tools on the market for performing this type of scanning for AWS
+and your choice of product may depend on your choice of Infrastucture as Code platform,
+such as CloudFormation or Terraform.  For this, I'm going to select Checkov (https://www.checkov.io/)
+as it supports a variety of IaC platforms.  Scanning at this stage of the pipeline is
+looking for misconfigured infrastructure components, such S3 buckets that do not have some 
+level of default encryption at rest enabled, EC2 instance security groups do not have 
+SSH available to a broad number of users, and DynamoDB has backups enabled.  All these things
+are evident from the IaC code before the infrastructure is created in AWS.  Checkov has a 
+nice feature that you can also create custom policies so your organization can enforce its
+standards using the same process.
+
+2) AMI/Container Vulnerability Scanning
+AMIN/Container scanning is to check base container images prior to deployment for vulnerabilities
+and compliance checks.  One product in this space is SysDig (https://sysdig.com/products/secure/)
+which provides a suite of products for scanning container images.  The types of vulnerabilites 
+that you are looking for in this stage are CVE indexed vulnerabilities like:
+CVE-2019-20367: nlist.c in libbsd before 0.10.0 has an out-of-bounds read during a comparison for a symbol name from the string table (strtab).
+The general solution for this type of vulnerability is update the image or the packages on
+the image to the latest version.
+
+3) AWS Environment Scanning
+Again, there are many tools that perform activities in this domain and an organizations
+ultimate decision may be to use several tools that focus on different areas of security
+inside the operating environment, whether its ongoing scanning of security configurations 
+(remember things change/drift after deployment from IaC scripts), user auditing, or spend 
+management.  AWS also provides native tooling in this space, some of which were covered in
+this course such as AWS Inspector.  To highlight on 3rd party tool, Qualys (https://www.qualys.com/), provides a 
+fairly comprehensive set of features which will monitor for a wide range of vulnerabilites
+in the operating environment, such as unpatched EC2 instances and intrusion monitoring.
+Qualys could be viable choice to cover the 2nd question as well.  Note, for this type of 
+vulnerability scanning, it should be operating continously and not just as part of a CI/CD 
+pipeline.

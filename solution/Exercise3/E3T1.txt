@@ -1,0 +1,14 @@
+1) AWS GuardDuty did not seem to pickup any events from the Hydra 
+attack generated from the attack instance when I ran it (and I ran it twice, once
+after completely blowing away the infrastructure and recreating it).  This issue 
+has been seen in the Mentor Chat by others.  I also allowed the Hydra program to run
+for a couple hours, but it does look like the session was terminiated in the middle of
+the night and there were no findings in GuardDuty in the morning.  Hypothetically,
+GuardDuty should have identified the excessive failed SSH logins going to the application
+server EC2 instance.
+2) Screenshot attached to project
+3) AWS GuardDuty acquires events from several sources including AWS CloudTrail Event Logs, AWS CloudTrail Management Events, AWS CloudTrail S3 Data Events,
+VPC Flow Logs, and DNS logs.  This attack scenario (should have) targted trying to log on to a vulnerable EC2 instance with SSH open to the internet using
+a rainbow table (rockyou.txt) of passwords using hydra, which uses multiple similutanous threads to brute force the SSH endpoint login.  Most likely, you would 
+see this attack via the VPC Flow Logs which capture IP traffic going back and forth between the EC2 instance and the VPC.  GuardDuty theoretically would see an 
+abnormal amount traffic going to the SSH Port (22) and raise a finding for it.

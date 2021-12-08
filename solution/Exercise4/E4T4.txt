@@ -1,0 +1,14 @@
+1) There are several additional architectural changes that could be made to reduce the threat of an internet-facing attack.  Ome, you could move the web 
+application EC2 isntance to a private subnet, this would make it more difficult for an internet-facing attacker to access the instance.  Web Application Firewalls 
+(WAF) could be added to the environment to protect against additional internet-facing attacks.
+
+2) This would not secure the secret S3 bucket as the private VPC wouldn't stop any users who had access to the environment from being able to access files and 
+the secret S3 bucket was suppose to be accessible to only a small subset of users.
+
+3) Applying default encryption to an S3 Bucket after-the-fact will not encrypt any files that have already been stored in the S3 Bucket prior to the change.  They
+will remain unencrypted.  There are batch processes that can be done within AWS/S3 to apply the encryption to the existing files, but that is a seperate activity 
+to applying the encryption settings to the S3 bucket.
+
+4) If the original CloudFormation templates were to be applied again after having made changes via SSH and/or the console, all the changes would be lost.  The 
+CloudFormation templates deploy the AWS components as described and potentially revert them back to the originally configured state.  The changes between the CloudFormation
+templates and the current environment configuration is "Drift".

@@ -1,0 +1,11 @@
+There are several poor security practices within the initial CloudFormation scripts and the architectural diagram of the initially desingned environment.
+Two of those are:
+1) The privileged business users are directly connecting to the "secret" S3 Bucket over the internet and that bucket contains propertiery
+information/trade secrets.  This increases the attack surface for malicious actors because they will be able to attempt to compromise
+the S3 bucket directly.  A better design would be to use security groups/NACLs to restrict access to a specific (in this case new) VPC
+and to provision either a VPN or Bastion host inside that public VPC for the privileged business users communicate with the "secret" S3
+Bucket.
+2) The security group associated with the web service application EC2 instance, which resides in a public-facing subnet, has teh first inbound rule set to allow 
+all IPV4 traffice on all ports from all IP addresses.  The scenario specification says that this only needs to be accessed via port 5000.  The other rules, even if the first all 
+traffic rule is removed, allow SSH traffic from the Internet, which is problematic and traffic on port 80 (HTTP), which is not bad on its face (lets ignore SSL here), but is 
+not required for this design.

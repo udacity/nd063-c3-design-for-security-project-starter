@@ -1,0 +1,37 @@
+I) AWS Config Findings
+    1. Issues
+        a)  All 3 (both recipe buckets and the flow log bucket) of the created S3 Buckets have identified compliance issues.  They have server-side encryption disabled,
+            leaving the data vulnerable.   They also have logging disabled.
+
+            Remediation:
+            Enable default encryption and logging on the S3 buckets.
+        
+        b)  The EC2 instance EBS volume is not encrypted.
+            
+            Remediation:
+            Enable the encryption on the EBS volumes.
+
+II) Inspector
+    1. Issues
+        a) The Web Application EC2 Instance has (unneeded) open ports which are generally used to support FTP and Telnet, both of which are tools commonly
+            used by malicious actors to compromise systems and exfiltrate data.
+
+            Remediation:
+            Close unnecessary ports on the EC2 instance secuirty group.
+
+III) Security Hub
+    1. Issues
+        a) Root user does not have MFA enabled.
+
+            Remediation:
+            Enable MFA for root user to provide additional proctection against compromised passwords/keys of critical accounts.
+        
+        b) S3 Buckets have not blocked public access.
+
+            Remediation:
+            Block public access to S3 buckets.
+
+
+
+
+    

@@ -1,0 +1,12 @@
+Looking at the attacks generated in the Exercise 3, there are two main issues with the current configuration that would need to be remediated.
+1) SSH Open on the EC2 Application Server instance
+    There is not a good reason to keep SSH (port 22) open.  In most cases, your architecture should be configured in such way using IaaS patterns
+    and deployment pipelines, that any environment changes should be created via releasing new infrastructure via Infrastructure as Code.  Therefore.
+    blocking SSH (and various other unnecessary ports that are open) would prevent the hydra brute force attach.  Even more securely, security groups 
+    could be setup to only allow traffic to the EC2 instance from the Application Load Balancer, as there was no specified need to get to the EC2 instance.
+
+2) S3 Bucket Security
+    The was no specified reason for the "secret" S3 Bucket to be availabel from the VPC area where the attack instance was located.  Also, additional security
+    via IAM Roles could restrict who has access to the S3 bucket, which would have stopped a non-privileged account via the attack instance from getting access to
+    the files stored in the secret S3 bucket.  Also, enabling encryption would have protected the data contained within the file even if it could have been retrieved from 
+    the bucket.
