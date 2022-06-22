@@ -113,6 +113,7 @@ Resources:
   AppEIP:
     Type: AWS::EC2::EIP
     Properties:
+      Domain: vpc
       InstanceId: !Ref RecipeWebServiceInstance
 
   AppLoadBalancer:
