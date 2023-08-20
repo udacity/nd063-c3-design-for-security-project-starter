@@ -1,0 +1,10 @@
+Based on the architecture diagram, and the steps you have taken so far to upload data and access the application web service, identify at least 2 obvious poor practices as it relates to security.  Include justification.
+
+# Poor practice 1
+None of the S3 buckets have server-side encryption enabled. The files were uploaded without encryption, there is an internal threat,
+such as unauthorized access by employees or contractors, they might gain access to the content in the buckets to view the data without the proper decryption keys and may steal them easily.
+
+
+# Poor practice 2
+In the VPC configuration, all route definitions have the CIDR set as 0.0.0.0/0. If a breach occur within the resource of the subnet configured under this routing table,
+attackers would potentially have the ability to transmit information to any IP address within or outside the VPC.

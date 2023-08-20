@@ -1,0 +1,38 @@
+# Identify tools that will allow you to do the following:
+
+## Scan infrastructure as code templates
+
+### Tool: Checkov
+
+Checkov is an open-source tool designed to scan infrastructure as code (IaC) templates for security misconfigurations and policy violations.
+
+### Example vulnerability
+
+Vulnerability: Unencrypted S3 Bucket
+
+Checkov can identify instances where an S3 bucket is created without enabling server-side encryption, potentially exposing sensitive data.
+
+## Scan AMI’s or containers for OS vulnerabilities
+
+### Tool: Clair
+
+Clair is an open-source tool that scans container images for security vulnerabilities and provides insights into potential risks.
+
+### Example vulnerability
+
+Vulnerability: High-Severity CVE
+
+Clair can detect the presence of a high-severity Common Vulnerabilities and Exposures (CVE) in a container image, alerting developers to the need for updates.
+
+## Scan an AWS environment for cloud configuration vulnerabilities
+
+### Tool: AWS Config
+
+AWS Config continuously monitors and assesses the configurations of AWS resources for compliance and security vulnerabilities.
+
+### Example vulnerability
+
+Vulnerability: Publicly Accessible S3 Bucket
+
+AWS Config can flag situations where an S3 bucket is publicly accessible, potentially exposing sensitive data to unauthorized users.
+

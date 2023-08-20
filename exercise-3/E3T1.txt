@@ -1,0 +1,32 @@
+# Describe GuardDuty findings that were detected related to the brute force attack
+- I tried to attack the simulate server many times but there is only an issue was detected: Recon:EC2/PortProbeUnprotectedPort - Low
+(An EC2 instance has an unprotected port that is being probed by a known malicious host.)
+
+
+# Research the AWS Guard Duty documentation page and explain how GuardDuty may have detected this attack - i.e. what was its source of information.
+
+AWS GuardDuty detects the "Recon:EC2/PortProbeUnprotectedPort" finding through the analysis of VPC flow logs.
+Here's how GuardDuty may have detected this attack:
+
++ Data Source: VPC Flow Logs: GuardDuty leverages VPC flow logs, which capture information about network traffic entering and leaving network interfaces within an Amazon VPC.
+These logs include details such as source IP addresses, destination IP addresses, ports, protocols, and more.
+
++ Unprotected Port Probing: GuardDuty analyzes VPC flow logs to detect instances of unprotected port probing. An unprotected port is a port that is not blocked by security groups,
+network access control lists (ACLs), or on-host firewalls. This means the port is open and accessible.
+
++ Known Malicious Hosts: GuardDuty maintains a repository of threat intelligence data from various sources, which includes information about known malicious IP addresses.
+These are IP addresses associated with attackers, scanners, or malicious activities.
+
++ Active Probing Detection: When GuardDuty observes that a known malicious host is actively probing an unprotected port on an EC2 instance,
+it triggers the "Recon:EC2/PortProbeUnprotectedPort" finding.
+
++ Severity Level: The finding's severity level is typically Low by default. However, if the port being probed is a well-known port associated with specific services
+(such as port 9200 for Elasticsearch or port 9300 for Elasticsearch transport), the severity level is elevated to High. 
+This indicates that there might be more critical services running on those ports.
+
++ Actionable Insights and Remediation: The finding provides insights into the potential vulnerability, including the unprotected port and the activity of known malicious hosts probing it.
+GuardDuty recommends remediation actions, such as securing the port by applying security group rules, network ACLs, or on-host firewalls.
+
+In summary, AWS GuardDuty uses VPC flow logs to monitor network traffic and detect instances of unprotected port probing.
+It relies on threat intelligence data to identify known malicious hosts engaging in this activity. 
+The detection helps us identify potential security risks and take necessary actions to mitigate them, ultimately enhancing the security of the AWS environment.
