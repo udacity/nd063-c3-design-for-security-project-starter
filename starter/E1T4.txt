@@ -1,5 +1,16 @@
 Based on the architecture diagram, and the steps you have taken so far to upload data and access the application web service, identify at least 2 obvious poor practices as it relates to security.  Include justification.
 
 # Poor practice 1
+Regarding to S3 template. It does not mention encryption. For sensitive data (like in S3BucketRecipesSecret), this is crucial.
 
 # Poor practice 2
+The private subnets are configured with a default route to the Internet Gateway (DefaultPrivateRoute1 and DefaultPrivateRoute2).
+This is unusual for private subnets as they typically route outbound traffic through a NAT Gateway.
+
+I'm worried about whether it can connect to the internet or not, maybe we need to configure public IP for EC2 resources. But it still weird
+
+# Poor practice 3
+Allow all actions "s3:*" on all resources "*" that can lead to potential security risks, we should restrict access to only neccessary resources
+
+# Poor practice 4
+For WebAppSG, the unrestricted SSH access (port 22) which allows unrestricted access from and to the internet. we should restrict the IP range
